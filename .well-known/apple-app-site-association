@@ -1,0 +1,15 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["635LDGUSAA.com.itpmgroup.areameasure"],
+        "components": [
+          {
+            "/": "/s/*",
+            "comment": "Shared measurement links open in the app when installed"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shared measurement — GPS &amp; Area Measure</title>
+  <meta name="description" content="A land measurement shared from the GPS &amp; Area Measure app." />
+
+  <!-- Social preview (static — GitHub Pages can't render per-item cards) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Shared measurement — GPS &amp; Area Measure" />
+  <meta property="og:description" content="View a land area, perimeter, and distance shared from the app." />
+  <meta property="og:image" content="https://gpsandareameasure.com/assets/og-image.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <style>
+    .share-wrap { max-width: 960px; margin: 0 auto; padding: 18px 16px 40px; }
+    .share-head { display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-bottom:14px; }
+    .share-head .brand { font-size: 1rem; }
+    #map { height: 56vh; min-height: 340px; border-radius: var(--radius); border:1px solid var(--line); background:#dfe7e2; }
+    .stats { display:grid; grid-template-columns: repeat(auto-fit,minmax(140px,1fr)); gap:12px; margin:16px 0; }
+    .stat { background:var(--bg); border:1px solid var(--line); border-radius:12px; padding:14px 16px; }
+    .stat .k { font-size:.78rem; color:var(--body); text-transform:uppercase; letter-spacing:.04em; }
+    .stat .v { font-size:1.35rem; font-weight:700; color:var(--ink); }
+    .stat .v small { font-weight:600; font-size:.85rem; color:var(--body); }
+    .title-row { display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; }
+    .title-row h1 { font-size:1.5rem; margin:0; }
+    .kind-tag { background:var(--green-soft); color:var(--green-dark); padding:3px 10px; border-radius:999px; font-size:.8rem; font-weight:600; }
+    .note { color:var(--body); margin:6px 0 0; }
+    .state { text-align:center; padding:60px 20px; color:var(--body); }
+    .state h1 { font-size:1.4rem; }
+    .unit-toggle { display:inline-flex; gap:4px; background:var(--bg-alt); border:1px solid var(--line); border-radius:999px; padding:3px; }
+    .unit-toggle button { border:0; background:transparent; padding:6px 12px; border-radius:999px; cursor:pointer; font-weight:600; color:var(--body); font-size:.85rem; }
+    .unit-toggle button.active { background:var(--green); color:#fff; }
+    .cta-strip { display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;
+                 background:var(--green-soft); border-radius:var(--radius); padding:16px 20px; margin-top:8px; }
+  </style>
+</head>
+<body>
+  <div class="share-wrap">
+    <div class="share-head">
+      <a class="brand" href="/"><span class="brand-mark">📐</span><span class="brand-name">GPS &amp; Area Measure</span></a>
+      <div class="unit-toggle" id="units" hidden>
+        <button data-u="ac">Acres</button>
+        <button data-u="ha">Hectares</button>
+        <button data-u="m2">m²</button>
+      </div>
+    </div>
+
+    <div id="content">
+      <div class="state"><h1>Loading shared measurement…</h1></div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+          integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="share-config.js"></script>
+  <script>
+  (function () {
+    const cfg = window.SHARE_CONFIG || {};
+    const params = new URLSearchParams(location.search);
+    const id = params.get("id");
+    const content = document.getElementById("content");
+
+    const R = 6378137; // WGS-84 semi-major axis (m)
+    const rad = d => d * Math.PI / 180;
+
+    function perimeter(points, close) {
+      let d = 0;
+      for (let i = 1; i < points.length; i++) d += haversine(points[i-1], points[i]);
+      if (close && points.length > 2) d += haversine(points[points.length-1], points[0]);
+      return d;
+    }
+    function haversine(a, b) {
+      const dLat = rad(b.lat - a.lat), dLon = rad(b.lon - a.lon);
+      const s = Math.sin(dLat/2)**2 + Math.cos(rad(a.lat))*Math.cos(rad(b.lat))*Math.sin(dLon/2)**2;
+      return 2 * R * Math.asin(Math.min(1, Math.sqrt(s)));
+    }
+    // Spherical polygon area (m²), good to <0.5% at parcel scale.
+    function ringArea(points) {
+      if (points.length < 3) return 0;
+      let sum = 0;
+      for (let i = 0; i < points.length; i++) {
+        const p1 = points[i], p2 = points[(i+1) % points.length];
+        sum += (rad(p2.lon) - rad(p1.lon)) * (2 + Math.sin(rad(p1.lat)) + Math.sin(rad(p2.lat)));
+      }
+      return Math.abs(sum * R * R / 2);
+    }
+
+    function fmtArea(m2, unit) {
+      if (unit === "ha") return (m2/10000).toLocaleString(undefined,{maximumFractionDigits:3}) + " <small>ha</small>";
+      if (unit === "m2") return Math.round(m2).toLocaleString() + " <small>m²</small>";
+      return (m2/4046.8564224).toLocaleString(undefined,{maximumFractionDigits:3}) + " <small>ac</small>";
+    }
+    function fmtDist(m) {
+      return m >= 1000
+        ? (m/1000).toLocaleString(undefined,{maximumFractionDigits:2}) + " <small>km</small>"
+        : Math.round(m).toLocaleString() + " <small>m</small>";
+    }
+
+    function showState(title, sub) {
+      content.innerHTML = `<div class="state"><h1>${title}</h1>${sub?`<p>${sub}</p>`:""}
+        <p><a class="btn" href="/">← Go to gpsandareameasure.com</a></p></div>`;
+    }
+
+    if (!id) { showState("No measurement specified", "This link is missing its id."); return; }
+    if (!cfg.SUPABASE_URL || cfg.SUPABASE_URL.includes("your-project-ref")) {
+      showState("Viewer not configured yet", "Fill in share-config.js with your Supabase URL and anon key."); return;
+    }
+
+    const endpoint = `${cfg.SUPABASE_URL}/rest/v1/public_shares?id=eq.${encodeURIComponent(id)}&select=*`;
+    fetch(endpoint, { headers: { apikey: cfg.SUPABASE_ANON_KEY, Authorization: "Bearer " + cfg.SUPABASE_ANON_KEY } })
+      .then(r => r.ok ? r.json() : Promise.reject(r.status))
+      .then(rows => {
+        const row = rows && rows[0];
+        if (!row) { showState("Measurement not found", "It may have been removed or the link is no longer valid."); return; }
+        render(row);
+      })
+      .catch(() => showState("Couldn’t load this measurement", "Please check your connection and try again."));
+
+    function render(row) {
+      const pts = Array.isArray(row.points_data) ? row.points_data : [];
+      const holes = Array.isArray(row.holes_data) ? row.holes_data : [];
+      const kind = (row.kind_raw || "field").toLowerCase();
+      const isField = kind === "field";
+      const isDistance = kind === "distance";
+
+      let areaM2 = row.area_m2;
+      if ((areaM2 == null) && isField) {
+        areaM2 = ringArea(pts);
+        for (const h of holes) areaM2 -= ringArea(h);
+      }
+      const perim = row.perimeter_m != null ? row.perimeter_m : perimeter(pts, isField);
+
+      const kindLabel = isField ? "Field" : isDistance ? "Distance" : "Marker";
+      const stats = [];
+      if (isField) stats.push(`<div class="stat"><div class="k">Area</div><div class="v" id="areaVal">${fmtArea(areaM2,"ac")}</div></div>`);
+      stats.push(`<div class="stat"><div class="k">${isField?"Perimeter":"Distance"}</div><div class="v">${fmtDist(perim)}</div></div>`);
+      stats.push(`<div class="stat"><div class="k">Points</div><div class="v">${pts.length}</div></div>`);
+
+      content.innerHTML = `
+        <div class="title-row">
+          <h1>${escapeHtml(row.name || "Untitled measurement")}</h1>
+          <span class="kind-tag">${kindLabel}</span>
+        </div>
+        ${row.note ? `<p class="note">${escapeHtml(row.note)}</p>` : ""}
+        <div class="stats">${stats.join("")}</div>
+        <div id="map"></div>
+        <div class="cta-strip">
+          <strong>Measured with GPS &amp; Area Measure</strong>
+          <a class="btn" href="${cfg.APP_STORE_URL || "/"}">Get the app</a>
+        </div>`;
+
+      if (isField) {
+        const ut = document.getElementById("units");
+        ut.hidden = false;
+        ut.querySelectorAll("button").forEach(b => {
+          if (b.dataset.u === "ac") b.classList.add("active");
+          b.addEventListener("click", () => {
+            ut.querySelectorAll("button").forEach(x => x.classList.remove("active"));
+            b.classList.add("active");
+            document.getElementById("areaVal").innerHTML = fmtArea(areaM2, b.dataset.u);
+          });
+        });
+      }
+      drawMap(pts, holes, kind);
+    }
+
+    function drawMap(pts, holes, kind) {
+      const map = L.map("map", { scrollWheelZoom: false });
+      L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", {
+        maxZoom: 20, attribution: "Imagery © Esri"
+      }).addTo(map);
+
+      if (!pts.length) { map.setView([0, 0], 2); return; }
+      const latlngs = pts.map(p => [p.lat, p.lon]);
+
+      let layer;
+      if (kind === "field") {
+        const rings = [latlngs, ...holes.map(h => h.map(p => [p.lat, p.lon]))];
+        layer = L.polygon(rings, { color: "#1f8a4c", weight: 3, fillColor: "#1f8a4c", fillOpacity: 0.28 });
+      } else if (kind === "distance") {
+        layer = L.polyline(latlngs, { color: "#1f8a4c", weight: 4 });
+      } else {
+        layer = L.marker(latlngs[0]);
+      }
+      layer.addTo(map);
+      const b = (layer.getBounds && layer.getBounds());
+      if (b && b.isValid()) map.fitBounds(b, { padding: [30, 30] });
+      else map.setView(latlngs[0], 17);
+    }
+
+    function escapeHtml(s) {
+      return String(s).replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
+    }
+  })();
+  </script>
+</body>
+</html>
