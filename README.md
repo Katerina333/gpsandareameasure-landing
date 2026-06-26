@@ -81,21 +81,26 @@ A share link is `https://gpsandareameasure.com/s/?id=<uuid>`. Open it and:
 | Piece | Where | Status |
 |---|---|---|
 | Public snapshot table + secure `create_public_share` RPC | [`supabase/migrations/0005_public_shares.sql`](../supabase/migrations/0005_public_shares.sql) | ✅ |
-| Web viewer | `s/index.html` + `s/share-config.js` | ✅ (fill in config) |
+| Web viewer | `s/index.html` + `s/share-config.js` | ✅ (config filled) |
 | Universal Links file | `.well-known/apple-app-site-association` (Team `635LDGUSAA`) | ✅ |
 | `Associated Domains` entitlement (`applinks:gpsandareameasure.com`) | [`AreaMeasure.entitlements`](../AreaMeasure.entitlements) | ✅ |
 | Link builder + incoming-link parser | [`AppLinks.swift`](../AreaMeasure/Services/AppLinks.swift) (`shareURL(id:)`, `shareID(from:)`) | ✅ |
+| *Create a share* app wiring | [`ShareService.swift`](../AreaMeasure/Services/ShareService.swift) + "Share link" in [`SavedItemPreviewSheet.swift`](../AreaMeasure/UI/SavedItemPreviewSheet.swift) | ✅ |
+| Android waitlist (landing signup) | [`0006_waitlist.sql`](../supabase/migrations/0006_waitlist.sql) + `assets/waitlist.js` | ✅ |
 
 ### To finish (one-time)
 
-1. **Apply the migration** — `supabase db push` (or run `0005_public_shares.sql` in the SQL editor).
-2. **Fill `s/share-config.js`** with your `SUPABASE_URL`, `SUPABASE_ANON_KEY` (same as `Config.xcconfig`),
-   and the App Store URL once published. (The anon key is safe to commit — RLS protects the data.)
+1. **Apply the migrations** — `supabase db push` (or run `0005_public_shares.sql` and `0006_waitlist.sql`
+   in the SQL editor).
+2. **`s/share-config.js`** is filled with the Supabase URL + anon key (safe to commit — RLS protects the
+   data); update `APP_STORE_URL` once the app is published.
 3. **In Xcode**, confirm the **Associated Domains** capability is on (the entitlement is already set).
-4. **App wiring (not yet built):**
-   - *Create a share* — call the `create_public_share` RPC with the measurement id, get back the share
-     uuid, then build the link with `AppLinks.shareURL(id:)` and present the iOS share sheet.
-   - *Open an incoming share* — in `onOpenURL`, use `AppLinks.shareID(from:)` and navigate to that item.
+4. **App wiring:**
+   - *Create a share* — ✅ `ShareService.createShareLink(measurementID:)` calls the `create_public_share`
+     RPC, builds the link with `AppLinks.shareURL(id:)`, and the "Share link" action presents the iOS
+     share sheet. Requires sign-in + the measurement to have synced.
+   - *Open an incoming share* — ⏳ still to wire: in `onOpenURL`, use `AppLinks.shareID(from:)` and
+     navigate to that item.
 
 ### Verifying Universal Links
 
