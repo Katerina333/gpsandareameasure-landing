@@ -6,8 +6,8 @@
 //
 // Fill these in from Supabase → Project Settings → API (same values as Config.xcconfig).
 window.SHARE_CONFIG = {
-  SUPABASE_URL: "https://your-project-ref.supabase.co",
-  SUPABASE_ANON_KEY: "your-anon-public-key",
+  SUPABASE_URL: "https://zcssolanlqvywedwnoqc.supabase.co",
+  SUPABASE_ANON_KEY: "sb_publishable_H_2PSLjyGx_-fUDo98bM3Q_kLMPor7y",
   // App Store URL used by the "Open in app / Get the app" button (fill once published).
   APP_STORE_URL: "https://apps.apple.com/app/id6781432068",
 };

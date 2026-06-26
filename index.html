@@ -50,7 +50,17 @@
             <a class="btn btn-lg" href="#" aria-label="Download on the App Store">
               <span aria-hidden="true"></span>&nbsp; Download on the App Store
             </a>
-            <span class="cta-note">iPhone &amp; iPad · iOS 17+</span>
+            <button class="store-badge" type="button" data-waitlist-open
+                    aria-label="Google Play — coming soon, join the waitlist">
+              <svg viewBox="0 0 24 24" aria-hidden="true" class="sb-icon">
+                <path d="M3.6 2.3 13.9 12 3.6 21.7c-.3-.2-.5-.6-.5-1V3.3c0-.4.2-.8.5-1z" fill="#34d399"/>
+                <path d="M16.8 8.9 13.9 12l-2.5-2.4 5-2.9c.1 0 .3.1.4.2z" fill="#fbbf24"/>
+                <path d="M16.8 15.1l-2.4-3.1 2.4-2.3 3.3 1.9c.5.3.5 1 0 1.3l-3.3 2.2z" fill="#f87171"/>
+                <path d="M3.6 21.7 11.4 14.4 13.9 12l2.9 3.1-12.8 6.8c-.1 0-.3-.1-.4-.2z" fill="#60a5fa"/>
+              </svg>
+              <span class="sb-text"><small>Coming soon on</small><strong>Google Play</strong></span>
+            </button>
+            <span class="cta-note">iPhone &amp; iPad · iOS 17+ · Android soon</span>
           </div>
           <ul class="hero-badges">
             <li>✓ Works offline in the field</li>
@@ -235,10 +245,40 @@
       <div class="container">
         <h2>Start measuring today</h2>
         <p class="lead">Free to download. No account required to measure.</p>
-        <a class="btn btn-lg" href="#">Download on the App Store</a>
+        <div class="cta-row" style="justify-content:center">
+          <a class="btn btn-lg" href="#">Download on the App Store</a>
+          <button class="store-badge" type="button" data-waitlist-open
+                  aria-label="Google Play — coming soon, join the waitlist">
+            <svg viewBox="0 0 24 24" aria-hidden="true" class="sb-icon">
+              <path d="M3.6 2.3 13.9 12 3.6 21.7c-.3-.2-.5-.6-.5-1V3.3c0-.4.2-.8.5-1z" fill="#34d399"/>
+              <path d="M16.8 8.9 13.9 12l-2.5-2.4 5-2.9c.1 0 .3.1.4.2z" fill="#fbbf24"/>
+              <path d="M16.8 15.1l-2.4-3.1 2.4-2.3 3.3 1.9c.5.3.5 1 0 1.3l-3.3 2.2z" fill="#f87171"/>
+              <path d="M3.6 21.7 11.4 14.4 13.9 12l2.9 3.1-12.8 6.8c-.1 0-.3-.1-.4-.2z" fill="#60a5fa"/>
+            </svg>
+            <span class="sb-text"><small>Coming soon on</small><strong>Google Play</strong></span>
+          </button>
+        </div>
       </div>
     </section>
   </main>
+
+  <!-- ===== Android waitlist modal ===== -->
+  <div class="modal-backdrop" id="waitlist-modal" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="wl-title">
+      <button class="modal-close" type="button" data-waitlist-close aria-label="Close">&times;</button>
+      <div class="modal-icon" aria-hidden="true">🤖</div>
+      <h2 id="wl-title">Android is coming soon</h2>
+      <p>We're building the Android version of GPS &amp; Area Measure. Leave your email and we'll let
+         you know the moment it's on Google Play.</p>
+      <form id="wl-form" novalidate>
+        <input type="email" id="wl-email" name="email" required placeholder="you@example.com"
+               autocomplete="email" inputmode="email" />
+        <button class="btn btn-lg" type="submit" id="wl-submit">Join the waitlist</button>
+      </form>
+      <p class="wl-msg" id="wl-msg" role="status" aria-live="polite"></p>
+      <p class="wl-fine">No spam — just one email when Android launches.</p>
+    </div>
+  </div>
 
   <!-- ===== Footer ===== -->
   <footer class="site-footer">
@@ -259,5 +299,7 @@
   </footer>
 
   <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+  <script src="s/share-config.js"></script>
+  <script src="assets/waitlist.js"></script>
 </body>
 </html>
