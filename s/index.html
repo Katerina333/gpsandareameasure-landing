@@ -63,7 +63,9 @@
   (function () {
     const cfg = window.SHARE_CONFIG || {};
     const params = new URLSearchParams(location.search);
-    const id = params.get("id");
+    // Sanitize: strip whitespace and any stray characters (e.g. a trailing "\" pasted into the URL).
+    const id = (params.get("id") || "").trim().replace(/[^0-9a-fA-F-]/g, "").toLowerCase();
+    const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test(id);
     const content = document.getElementById("content");
 
     const R = 6378137; // WGS-84 semi-major axis (m)
@@ -108,16 +110,22 @@
     }
 
     if (!id) { showState("No measurement specified", "This link is missing its id."); return; }
+    if (!isUuid) { showState("Invalid share link", "This link doesn’t look right — check it was copied in full."); return; }
     if (!cfg.SUPABASE_URL || cfg.SUPABASE_URL.includes("your-project-ref")) {
       showState("Viewer not configured yet", "Fill in share-config.js with your Supabase URL and anon key."); return;
     }
 
     const endpoint = `${cfg.SUPABASE_URL}/rest/v1/public_shares?id=eq.${encodeURIComponent(id)}&select=*`;
     fetch(endpoint, { headers: { apikey: cfg.SUPABASE_ANON_KEY, Authorization: "Bearer " + cfg.SUPABASE_ANON_KEY } })
-      .then(r => r.ok ? r.json() : Promise.reject(r.status))
+      .then(async r => {
+        // Server reachable but errored (missing row, bad id, table not set up) → treat as "not found",
+        // not a connection problem. Only a thrown fetch (offline/DNS) hits .catch below.
+        if (!r.ok) return [];
+        return r.json();
+      })
       .then(rows => {
         const row = rows && rows[0];
-        if (!row) { showState("Measurement not found", "It may have been removed or the link is no longer valid."); return; }
+        if (!row) { showState("Measurement not found", "It may have been removed, or the link is no longer valid."); return; }
         render(row);
       })
       .catch(() => showState("Couldn’t load this measurement", "Please check your connection and try again."));
