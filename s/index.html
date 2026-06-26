@@ -172,9 +172,17 @@
 
     function drawMap(pts, holes, kind) {
       const map = L.map("map", { scrollWheelZoom: false });
-      L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", {
-        maxZoom: 20, attribution: "Imagery © Esri"
-      }).addTo(map);
+
+      // Satellite / Map toggle (top-left), like Google Maps.
+      const satellite = L.tileLayer(
+        "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+        { maxZoom: 20, attribution: "Imagery © Esri" });
+      const streets = L.tileLayer(
+        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        { maxZoom: 19, attribution: "© OpenStreetMap contributors" });
+      satellite.addTo(map);
+      L.control.layers({ "Satellite": satellite, "Map": streets }, null,
+        { position: "topleft", collapsed: false }).addTo(map);
 
       if (!pts.length) { map.setView([0, 0], 2); return; }
       const latlngs = pts.map(p => [p.lat, p.lon]);
