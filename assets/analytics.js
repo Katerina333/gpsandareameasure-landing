@@ -13,7 +13,7 @@
 
   // 1) ----- CONFIG -------------------------------------------------
   // Paste your GA4 Measurement ID here (Admin → Data Streams → Web).
-  var GA_ID = "G-XXXXXXXXXX";
+  var GA_ID = "G-E18SVDZBKJ";
 
   // App Store product URL. While it's "#", the buttons just track a
   // click. Once published, paste the real URL — UTM/campaign tokens
