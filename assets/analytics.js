@@ -1,5 +1,5 @@
 /* ============================================================
-   GPS & Area Measure — analytics + consent + attribution
+   Field Maps with Area Measure — analytics + consent + attribution
    ------------------------------------------------------------
    - GA4 via Google Consent Mode v2 (cookies only after consent)
    - Minimal cookie-consent banner (GDPR/UK)
