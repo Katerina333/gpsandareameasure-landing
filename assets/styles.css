@@ -132,32 +132,74 @@ a:hover { text-decoration: underline; }
 /* Phone mockup */
 .hero-visual { display: flex; justify-content: center; }
 .phone {
-  width: 260px; aspect-ratio: 9 / 19;
-  background: #0e1512; border-radius: 40px; padding: 10px;
-  box-shadow: var(--shadow); position: relative;
+  width: 290px; aspect-ratio: 9 / 19.3;
+  background: #0c1310; border-radius: 46px; padding: 11px;
+  box-shadow: 0 30px 60px rgba(16, 50, 32, 0.28), inset 0 0 0 2px #2a322d;
+  position: relative;
 }
 .phone-screen {
   position: relative; width: 100%; height: 100%;
-  border-radius: 30px; overflow: hidden; background: #cfe0d4;
+  border-radius: 36px; overflow: hidden; background: #e7efe7;
+  font-family: var(--font);
 }
-.map-grid {
-  position: absolute; inset: 0;
-  background-image:
-    linear-gradient(rgba(31,138,76,.10) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(31,138,76,.10) 1px, transparent 1px);
-  background-size: 28px 28px;
-  background-color: #d8e8dd;
+
+/* dynamic island */
+.phone::after {
+  content: ""; position: absolute; top: 20px; left: 50%; transform: translateX(-50%);
+  width: 86px; height: 26px; background: #0c1310; border-radius: 14px; z-index: 5;
 }
-.field-overlay { position: absolute; inset: 0; width: 100%; height: 100%; }
-.field-overlay polygon { fill: rgba(31,138,76,.28); stroke: var(--green); stroke-width: 3; }
-.field-overlay circle { fill: #fff; stroke: var(--green-dark); stroke-width: 3; }
-.readout {
-  position: absolute; left: 14px; bottom: 14px;
-  background: rgba(255,255,255,.95); border-radius: 12px; padding: 8px 12px;
-  box-shadow: 0 4px 14px rgba(0,0,0,.12); display: flex; flex-direction: column;
+
+.map { position: absolute; inset: 0; width: 100%; height: 100%; }
+.map .field { fill: rgba(31,138,76,.30); stroke: var(--green); stroke-width: 3; stroke-linejoin: round; }
+.map .vertex circle { fill: #fff; stroke: var(--green-dark); stroke-width: 3; filter: drop-shadow(0 1px 2px rgba(0,0,0,.25)); }
+.map .edge-label rect { fill: var(--green-dark); }
+.map .edge-label text { fill: #fff; font-size: 11px; font-weight: 600; text-anchor: middle; font-family: var(--font); }
+
+/* status bar */
+.phone-status {
+  position: absolute; top: 16px; left: 0; right: 0; z-index: 6;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 0 26px; font-size: 13px; font-weight: 600; color: var(--ink);
 }
-.readout-value { font-weight: 700; color: var(--ink); font-size: 1.1rem; }
-.readout-label { font-size: .72rem; color: var(--body); }
+.phone-status .status-right { display: inline-flex; align-items: center; gap: 5px; }
+
+/* search bar */
+.map-search {
+  position: absolute; top: 54px; left: 14px; right: 14px; z-index: 4;
+  display: flex; align-items: center; gap: 8px;
+  background: rgba(255,255,255,.96); border-radius: 13px;
+  padding: 11px 14px; color: var(--body); font-size: 13.5px;
+  box-shadow: 0 6px 18px rgba(16,50,32,.14);
+}
+
+/* locate button */
+.map-gps {
+  position: absolute; right: 14px; bottom: 168px; z-index: 4;
+  width: 44px; height: 44px; border: 0; border-radius: 50%;
+  background: #fff; color: var(--green-dark); cursor: default;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 6px 18px rgba(16,50,32,.18);
+}
+
+/* bottom measurement sheet */
+.measure-card {
+  position: absolute; left: 12px; right: 12px; bottom: 14px; z-index: 4;
+  background: #fff; border-radius: 22px; padding: 14px 16px 16px;
+  box-shadow: 0 -2px 24px rgba(16,50,32,.16);
+}
+.mc-grab { display: block; width: 38px; height: 5px; border-radius: 3px; background: var(--line); margin: 0 auto 12px; }
+.mc-head { display: flex; align-items: flex-start; justify-content: space-between; }
+.mc-value { display: block; font-size: 1.7rem; font-weight: 800; color: var(--ink); line-height: 1; letter-spacing: -.02em; }
+.mc-label { display: block; font-size: .8rem; color: var(--body); margin-top: 5px; }
+.mc-peri { text-align: right; }
+.mc-peri strong { display: block; font-size: 1rem; color: var(--ink); }
+.mc-peri span { font-size: .72rem; color: var(--body); }
+.mc-units { display: flex; gap: 6px; margin-top: 14px; }
+.mc-units .unit {
+  flex: 1; text-align: center; font-size: .78rem; font-weight: 600;
+  padding: 8px 0; border-radius: 10px; background: var(--bg-alt); color: var(--body);
+}
+.mc-units .unit.active { background: var(--green); color: #fff; }
 
 /* ===== Sections ===== */
 .section { padding: 72px 0; }

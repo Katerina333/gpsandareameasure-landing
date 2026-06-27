@@ -173,16 +173,86 @@
         <div class="hero-visual" aria-hidden="true">
           <div class="phone">
             <div class="phone-screen">
-              <div class="map-grid"></div>
-              <svg viewBox="0 0 240 360" class="field-overlay" preserveAspectRatio="none">
-                <polygon points="40,90 190,60 205,210 70,260" />
-                <circle cx="40" cy="90" r="6"/><circle cx="190" cy="60" r="6"/>
-                <circle cx="205" cy="210" r="6"/><circle cx="70" cy="260" r="6"/>
+
+              <!-- Vector map -->
+              <svg class="map" viewBox="0 0 240 520" preserveAspectRatio="xMidYMid slice">
+                <!-- base terrain -->
+                <rect width="240" height="520" fill="#e7efe7"/>
+                <path d="M0 0H240V210L150 250 0 200Z" fill="#dde9da"/>
+                <path d="M0 200L150 250 240 210V400L120 460 0 410Z" fill="#d6e6d6"/>
+                <path d="M0 410L120 460 240 400V520H0Z" fill="#cfe2cf"/>
+                <!-- water -->
+                <path d="M-10 470C30 440 70 470 70 510 70 540 10 545 -20 530Z" fill="#bfe0ef"/>
+                <!-- roads (casing + fill) -->
+                <path d="M-10 90 Q120 140 250 60" fill="none" stroke="#c9d3cb" stroke-width="16"/>
+                <path d="M-10 90 Q120 140 250 60" fill="none" stroke="#ffffff" stroke-width="10"/>
+                <path d="M40 -10 Q70 200 30 530" fill="none" stroke="#c9d3cb" stroke-width="12"/>
+                <path d="M40 -10 Q70 200 30 530" fill="none" stroke="#ffffff" stroke-width="7"/>
+                <!-- tree clusters -->
+                <g fill="#a7cda6">
+                  <circle cx="206" cy="430" r="9"/><circle cx="220" cy="442" r="8"/>
+                  <circle cx="200" cy="446" r="7"/><circle cx="216" cy="424" r="6"/>
+                  <circle cx="22" cy="150" r="7"/><circle cx="33" cy="160" r="6"/>
+                </g>
+
+                <!-- measured field -->
+                <polygon class="field" points="58,150 186,124 202,322 78,352"/>
+                <!-- edge length labels -->
+                <g class="edge-label">
+                  <rect x="98" y="118" width="50" height="20" rx="6"/>
+                  <text x="123" y="132">182 m</text>
+                </g>
+                <g class="edge-label">
+                  <rect x="178" y="213" width="46" height="20" rx="6"/>
+                  <text x="201" y="227">146 m</text>
+                </g>
+                <!-- vertices -->
+                <g class="vertex">
+                  <circle cx="58" cy="150" r="6"/><circle cx="186" cy="124" r="6"/>
+                  <circle cx="202" cy="322" r="6"/><circle cx="78" cy="352" r="6"/>
+                </g>
               </svg>
-              <div class="readout">
-                <span class="readout-value">4.21 ac</span>
-                <span class="readout-label">Area · 642 m perimeter</span>
+
+              <!-- status bar -->
+              <div class="phone-status">
+                <span>9:41</span>
+                <span class="status-right">
+                  <svg viewBox="0 0 18 12" width="17"><rect x="0" y="2" width="3" height="8" rx="1" fill="currentColor"/><rect x="5" y="0" width="3" height="10" rx="1" fill="currentColor"/><rect x="10" y="4" width="3" height="6" rx="1" fill="currentColor" opacity=".4"/></svg>
+                  <svg viewBox="0 0 26 12" width="24"><rect x="1" y="1" width="20" height="10" rx="3" fill="none" stroke="currentColor" stroke-width="1.4"/><rect x="3" y="3" width="14" height="6" rx="1.5" fill="currentColor"/><rect x="22" y="4" width="2" height="4" rx="1" fill="currentColor"/></svg>
+                </span>
               </div>
+
+              <!-- search bar -->
+              <div class="map-search">
+                <svg viewBox="0 0 24 24" width="16" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><line x1="16.5" y1="16.5" x2="21" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                <span>Search address or place</span>
+              </div>
+
+              <!-- locate / GPS button -->
+              <button class="map-gps" type="button" tabindex="-1">
+                <svg viewBox="0 0 24 24" width="20"><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/><line x1="12" y1="1.5" x2="12" y2="5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="19" x2="12" y2="22.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="1.5" y1="12" x2="5" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="19" y1="12" x2="22.5" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              </button>
+
+              <!-- bottom measurement sheet -->
+              <div class="measure-card">
+                <span class="mc-grab"></span>
+                <div class="mc-head">
+                  <div>
+                    <span class="mc-value">4.21 ac</span>
+                    <span class="mc-label">North Field</span>
+                  </div>
+                  <div class="mc-peri">
+                    <strong>642 m</strong>
+                    <span>perimeter</span>
+                  </div>
+                </div>
+                <div class="mc-units">
+                  <span class="unit active">Acres</span>
+                  <span class="unit">Hectares</span>
+                  <span class="unit">m²</span>
+                </div>
+              </div>
+
             </div>
           </div>
         </div>
