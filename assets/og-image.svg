@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <!-- background -->
+  <rect width="1200" height="630" fill="#187a43"/>
+  <rect width="1200" height="630" fill="#156437" opacity="0.0"/>
+
+  <!-- subtle grid lines -->
+  <g stroke="#ffffff" stroke-opacity="0.07" stroke-width="2">
+    <line x1="0" y1="105" x2="1200" y2="105"/>
+    <line x1="0" y1="210" x2="1200" y2="210"/>
+    <line x1="0" y1="315" x2="1200" y2="315"/>
+    <line x1="0" y1="420" x2="1200" y2="420"/>
+    <line x1="0" y1="525" x2="1200" y2="525"/>
+    <line x1="150" y1="0" x2="150" y2="630"/>
+    <line x1="300" y1="0" x2="300" y2="630"/>
+    <line x1="450" y1="0" x2="450" y2="630"/>
+    <line x1="600" y1="0" x2="600" y2="630"/>
+    <line x1="750" y1="0" x2="750" y2="630"/>
+    <line x1="900" y1="0" x2="900" y2="630"/>
+    <line x1="1050" y1="0" x2="1050" y2="630"/>
+  </g>
+
+  <!-- Left: copy -->
+  <g transform="translate(80,150)">
+    <rect width="72" height="72" rx="18" fill="#ffffff"/>
+    <polygon points="16,26 58,18 60,54 22,60" fill="none" stroke="#1f8a4c" stroke-width="5" stroke-linejoin="round"/>
+    <circle cx="16" cy="26" r="6" fill="#1f8a4c"/>
+    <circle cx="58" cy="18" r="6" fill="#1f8a4c"/>
+    <circle cx="60" cy="54" r="6" fill="#1f8a4c"/>
+    <circle cx="22" cy="60" r="6" fill="#1f8a4c"/>
+    <text x="92" y="50" font-family="Helvetica, Arial, sans-serif" font-size="34" font-weight="700" fill="#ffffff">GPS &amp; Area Measure</text>
+
+    <text x="0" y="170" font-family="Helvetica, Arial, sans-serif" font-size="60" font-weight="800" fill="#ffffff">Measure any piece</text>
+    <text x="0" y="240" font-family="Helvetica, Arial, sans-serif" font-size="60" font-weight="800" fill="#ffffff">of land from your phone</text>
+
+    <text x="0" y="312" font-family="Helvetica, Arial, sans-serif" font-size="29" fill="#d6efdf">Area, perimeter &amp; distance on a real map —</text>
+    <text x="0" y="352" font-family="Helvetica, Arial, sans-serif" font-size="29" fill="#d6efdf">tap points or walk the boundary with GPS.</text>
+  </g>
+
+  <!-- Right: phone visual -->
+  <g transform="translate(820,150)">
+    <rect x="0" y="0" width="300" height="330" rx="36" fill="#0e3a22" stroke="#ffffff" stroke-opacity="0.2" stroke-width="2"/>
+    <rect x="16" y="16" width="268" height="298" rx="22" fill="#16241c"/>
+    <polygon points="60,90 230,60 250,230 90,280" fill="#34d399" fill-opacity="0.3" stroke="#34d399" stroke-width="4" stroke-linejoin="round"/>
+    <circle cx="60" cy="90" r="9" fill="#34d399"/>
+    <circle cx="230" cy="60" r="9" fill="#34d399"/>
+    <circle cx="250" cy="230" r="9" fill="#34d399"/>
+    <circle cx="90" cy="280" r="9" fill="#34d399"/>
+    <rect x="40" y="232" width="170" height="58" rx="14" fill="#ffffff"/>
+    <text x="56" y="263" font-family="Helvetica, Arial, sans-serif" font-size="26" font-weight="800" fill="#156437">4.21 ac</text>
+    <text x="56" y="283" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#44514a">Area · 642 m perimeter</text>
+  </g>
+
+  <text x="80" y="560" font-family="Helvetica, Arial, sans-serif" font-size="24" font-weight="600" fill="#ffffff" fill-opacity="0.9">gpsandareameasure.com  ·  iPhone &amp; iPad</text>
+</svg>
