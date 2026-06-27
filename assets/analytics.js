@@ -15,10 +15,13 @@
   // Paste your GA4 Measurement ID here (Admin → Data Streams → Web).
   var GA_ID = "G-E18SVDZBKJ";
 
-  // App Store product URL. While it's "#", the buttons just track a
-  // click. Once published, paste the real URL — UTM/campaign tokens
-  // are appended automatically.
-  var APP_STORE_URL = "#";
+  // App Store product URL (canonical, derived from the ASC Apple ID).
+  // GATED: the app is not released yet, so this 404s — keep
+  // APP_STORE_LIVE = false until it's approved & on the store, then flip
+  // to true and redeploy. Buttons stay click-tracked (href "#") until then.
+  // UTM/campaign tokens are appended automatically when live.
+  var APP_STORE_URL = "https://apps.apple.com/app/id6781432068";
+  var APP_STORE_LIVE = false;
 
   var STORE_KEY = "gam_consent"; // "granted" | "denied"
   var hasRealGA = /^G-[A-Z0-9]{6,}$/.test(GA_ID) && GA_ID !== "G-XXXXXXXXXX";
@@ -104,7 +107,7 @@
 
   // 5) ----- App Store button: track + carry campaign token ---------
   function buildStoreURL() {
-    if (APP_STORE_URL === "#") return "#";
+    if (!APP_STORE_LIVE || APP_STORE_URL === "#") return "#";
     var src = getSource();
     // Apple App Analytics campaign token (shows in ASC). Falls back
     // to the page's own UTM source, else "website".
