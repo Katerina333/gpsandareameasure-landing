@@ -318,3 +318,20 @@ details p { margin: 12px 0 0; }
 .footer-links a { color: var(--body); }
 .muted { color: var(--body); }
 .small { font-size: .85rem; }
+
+/* ===== Cookie consent banner ===== */
+.consent-bar {
+  position: fixed; left: 16px; right: 16px; bottom: 16px; z-index: 999;
+  max-width: 760px; margin: 0 auto;
+  background: var(--ink); color: #fff;
+  border-radius: 14px; box-shadow: 0 12px 34px rgba(0,0,0,.28);
+  padding: 16px 18px;
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  flex-wrap: wrap;
+}
+.consent-bar p { margin: 0; font-size: .9rem; flex: 1 1 320px; line-height: 1.5; }
+.consent-bar a { color: #9fe3bb; text-decoration: underline; }
+.consent-actions { display: flex; gap: 10px; flex-shrink: 0; }
+.consent-bar .consent-decline { background: transparent; border: 1px solid rgba(255,255,255,.35); color: #fff; }
+.consent-bar .consent-decline:hover { background: rgba(255,255,255,.10); }
+.consent-bar .consent-accept { background: var(--green); }
