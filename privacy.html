@@ -33,8 +33,9 @@
         <li>If you <strong>sign in and use Workspaces</strong>, your measurements, photos, and notes are stored on our cloud backend so they sync across your devices and your team.</li>
         <li>If you create a <strong>public share link</strong>, that measurement becomes viewable by anyone who has the link until you delete it.</li>
         <li>Purchases are processed by <strong>Apple</strong>; we use RevenueCat to manage subscriptions and never see your payment details.</li>
-        <li>We use <strong>Google Firebase</strong> (Analytics &amp; Crashlytics) for anonymous usage and crash data, and <strong>Google Analytics</strong> on the website (only after you accept cookies).</li>
-        <li>We <strong>do not sell or rent</strong> your data.</li>
+        <li>We use <strong>Google Firebase</strong> (Analytics, Crashlytics &amp; Cloud Messaging) for anonymous usage/crash data and push notifications, and <strong>Google Analytics</strong> on the website (only after you accept cookies).</li>
+        <li>If you allow notifications, we can send you push messages (e.g. about workspace activity); you can turn this off anytime in iOS Settings.</li>
+        <li>We <strong>do not sell or rent</strong> your data, and we <strong>do not track you</strong> across other apps or websites.</li>
       </ul>
 
       <h2>1. Information we collect</h2>
@@ -45,9 +46,10 @@
       on your device</strong>. This data does not leave your device, and we cannot access it.</p>
 
       <h3>1.2 Location data</h3>
-      <p>With your permission, the App uses your device location (Core Location) while you are
-      measuring — for example to center the map on you or to trace a boundary as you walk, drive,
-      or fly it. Location is processed <strong>on your device</strong> to perform the measurement.
+      <p>With your permission, the App uses your device location (Core Location) <strong>only while
+      you are using the App</strong> ("when in use") — for example to center the map on you or to
+      trace a boundary as you walk, drive, or fly it. Location is processed <strong>on your
+      device</strong> to perform the measurement.
       Coordinates only reach our servers if you save the measurement to a cloud-synced Workspace or
       publish a public share link (see below).</p>
 
@@ -59,29 +61,42 @@
 
       <h3>1.4 Workspace content (cloud sync)</h3>
       <p>When you are signed in and use <strong>Workspaces</strong>, the measurements you save there
-      — including geometry, coordinates, area/perimeter, names, notes, attached photos, and your
-      workspace membership and role — are stored on our cloud backend so they can sync to your
-      devices and to members you invite. Other members of a workspace you join can see the content
-      shared in that workspace.</p>
+      — including geometry, coordinates, area/perimeter, names, notes, attached photos and videos,
+      and your workspace membership and role — are stored on our cloud backend so they can sync to
+      your devices and to members you invite. Other members of a workspace you join can see the
+      content shared in that workspace.</p>
 
-      <h3>1.5 Photos</h3>
-      <p>If you attach a site photo, the App accesses your camera with your permission. Photos stay
-      on your device unless they are part of a cloud-synced Workspace, in which case they are
-      uploaded to our backend so the workspace can sync them.</p>
+      <h3>1.5 Photos, videos, camera and microphone</h3>
+      <p>If you attach site media, the App uses your <strong>camera</strong> (with your permission)
+      to take a photo or record a video; recording a video also uses your <strong>microphone</strong>
+      for its audio. Captured media stays on your device unless it is part of a cloud-synced
+      Workspace, in which case it is uploaded to our backend so the workspace can sync it. We do not
+      otherwise access the microphone.</p>
 
-      <h3>1.6 Public share links</h3>
+      <h3>1.6 Push notifications</h3>
+      <p>If you allow notifications, the App uses <strong>Apple Push Notification service</strong> and
+      <strong>Firebase Cloud Messaging</strong> to send you messages such as workspace activity. To
+      do this, your device is issued a push token, which we use only to deliver notifications to you.
+      You can turn notifications off at any time in iOS <em>Settings → Notifications</em>.</p>
+
+      <h3>1.7 Map search</h3>
+      <p>When you search for an address or place in the App, your search text and approximate region
+      are sent to <strong>Apple's MapKit</strong> to return results. Map tiles and search are
+      provided by Apple under their terms.</p>
+
+      <h3>1.8 Public share links</h3>
       <p>If you choose to create a public share link for a measurement, a snapshot of that
       measurement (its geometry, area/perimeter, and any notes or photos you include) is stored and
       made accessible to <strong>anyone who has the link</strong>, without sign-in, until you delete
       the share. Only share measurements you are comfortable making public.</p>
 
-      <h3>1.7 Purchases and subscriptions</h3>
+      <h3>1.9 Purchases and subscriptions</h3>
       <p>In-app purchases and subscriptions are processed by <strong>Apple</strong>. We use
       <strong>RevenueCat</strong> to validate receipts and manage your subscription entitlement.
       RevenueCat receives an anonymous app-user identifier and purchase/receipt information. We
       never receive your name, payment method, or Apple ID.</p>
 
-      <h3>1.8 Analytics and crash data (Firebase)</h3>
+      <h3>1.10 Analytics and crash data (Firebase)</h3>
       <p>The App uses <strong>Google Firebase Analytics</strong> and <strong>Crashlytics</strong>:</p>
       <ul>
         <li><strong>Collected:</strong> anonymous event logs (e.g. "measurement saved", "paywall viewed"), device model, OS version, language, approximate country derived from IP, and crash stack traces.</li>
@@ -91,29 +106,31 @@
       <p>You can limit this via iOS <em>Settings → Privacy &amp; Security → Analytics &amp;
       Improvements</em>.</p>
 
-      <h3>1.9 Website (waitlist &amp; analytics)</h3>
+      <h3>1.11 Website (waitlist &amp; analytics)</h3>
       <p>If you join the Android waitlist on the Site, we store the email address you submit solely
       to notify you when the Android version is available. The Site also uses Google Analytics — see
       <a href="#cookies">Website analytics &amp; cookies</a> below.</p>
 
       <h2>2. Information we do not collect</h2>
       <p>We do not collect or have access to: your payment details, your contacts, calendar, or
-      messages, your microphone, information about other apps on your device, or your location
-      beyond what is needed for a measurement you actively make.</p>
+      messages, your microphone (except while you are recording a video, see 1.5), information about
+      other apps on your device, advertising identifiers, or your location beyond what is needed for
+      a measurement you actively make. We do not use your data for advertising or cross-app
+      tracking.</p>
 
       <h2>3. How we use information</h2>
       <p>To provide and operate the App and Site, perform measurements, sync and share your
-      Workspaces, manage subscriptions, respond to support requests, understand aggregate usage,
-      fix bugs, and keep the service secure.</p>
+      Workspaces, manage subscriptions, send notifications you have enabled, respond to support
+      requests, understand aggregate usage, fix bugs, and keep the service secure.</p>
 
       <h2>4. Data sharing and processors</h2>
       <p>We do not sell or rent your data. We share data only with service providers ("processors")
       who handle it on our behalf for the purposes above:</p>
       <ul>
-        <li><strong>Apple</strong> — in-app purchase and subscription processing, Sign in with Apple.</li>
+        <li><strong>Apple</strong> — in-app purchase and subscription processing, Sign in with Apple, MapKit place search and map tiles, and Apple Push Notification service for delivering notifications.</li>
         <li><strong>RevenueCat, Inc.</strong> — subscription receipt validation and entitlement management.</li>
         <li><strong>Supabase, Inc.</strong> — authentication, database, and storage for accounts, Workspaces, and public shares (hosted on cloud infrastructure).</li>
-        <li><strong>Google LLC (Firebase)</strong> — app analytics and crash reporting.</li>
+        <li><strong>Google LLC (Firebase)</strong> — app analytics, crash reporting, and Cloud Messaging for push notifications.</li>
         <li><strong>Google LLC (Google Analytics)</strong> — website analytics, only after you accept cookies.</li>
       </ul>
 
@@ -132,7 +149,7 @@
       <ul>
         <li><strong>Delete</strong> on-device data by removing items or the App; delete cloud data by deleting the relevant Workspace, share, or your account in-app, or by emailing us.</li>
         <li><strong>Export</strong> your measurements yourself at any time as CSV or KML.</li>
-        <li><strong>Object</strong> to analytics via iOS Settings (App) or by declining cookies (Site).</li>
+        <li><strong>Object</strong> to analytics via iOS Settings (App) or by declining cookies (Site), and turn off push notifications in iOS Settings.</li>
         <li><strong>Complain</strong> to your local data-protection supervisory authority.</li>
       </ul>
       <p>To exercise any right, email <a href="mailto:info@itpmgroup.com">info@itpmgroup.com</a>.
