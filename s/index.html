@@ -116,7 +116,9 @@
       showState("Viewer not configured yet", "Fill in share-config.js with your Supabase URL and anon key."); return;
     }
 
-    const endpoint = `${cfg.SUPABASE_URL}/rest/v1/public_shares?id=eq.${encodeURIComponent(id)}&select=*`;
+    // Explicit column list (never request created_by — the author's UUID is not exposed publicly).
+    const cols = "name,note,kind_raw,points_data,holes_data,area_m2,perimeter_m";
+    const endpoint = `${cfg.SUPABASE_URL}/rest/v1/public_shares?id=eq.${encodeURIComponent(id)}&select=${cols}`;
     fetch(endpoint, { headers: { apikey: cfg.SUPABASE_ANON_KEY, Authorization: "Bearer " + cfg.SUPABASE_ANON_KEY } })
       .then(async r => {
         // Server reachable but errored (missing row, bad id, table not set up) → treat as "not found",
