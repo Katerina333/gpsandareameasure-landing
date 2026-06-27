@@ -11,10 +11,12 @@ landing/
 ├── CNAME             # custom domain for GitHub Pages
 ├── .nojekyll         # disables Jekyll so /.well-known is published
 ├── .well-known/
-│   └── apple-app-site-association   # Universal Links (opens shares in the app)
+│   └── apple-app-site-association   # Universal Links (/s/ shares + /j/ invites open in the app)
 ├── s/                # share viewer  →  gpsandareameasure.com/s/?id=<uuid>
 │   ├── index.html
 │   └── share-config.js             # ← fill in Supabase URL + anon key
+├── j/                # workspace-invite fallback  →  gpsandareameasure.com/j/?code=<code>
+│   └── index.html                  # "get the app" + code; installed apps open in-app instead
 └── assets/
     ├── styles.css
     └── favicon.svg
@@ -87,6 +89,24 @@ A share link is `https://gpsandareameasure.com/s/?id=<uuid>`. Open it and:
 | Link builder + incoming-link parser | [`AppLinks.swift`](../AreaMeasure/Services/AppLinks.swift) (`shareURL(id:)`, `shareID(from:)`) | ✅ |
 | *Create a share* app wiring | [`ShareService.swift`](../AreaMeasure/Services/ShareService.swift) + "Share link" in [`SavedItemPreviewSheet.swift`](../AreaMeasure/UI/SavedItemPreviewSheet.swift) | ✅ |
 | Android waitlist (landing signup) | [`0006_waitlist.sql`](../supabase/migrations/0006_waitlist.sql) + `assets/waitlist.js` | ✅ |
+
+## Workspace invite links
+
+An invite link is `https://gpsandareameasure.com/j/?code=<code>`. Open it and:
+
+- **No app installed** → `j/index.html` shows a "get the app" page with the code + steps to join.
+- **App installed** → iOS intercepts it via **Universal Links** (`/j/*` in the AASA file) and opens the
+  app straight to the **Join workspace** sheet with the code prefilled — one tap to join.
+
+| Piece | Where | Status |
+|---|---|---|
+| `invites` table + `redeem_invite` RPC (validates code/expiry/seat, adds membership) | [`0001_schema.sql`](../supabase/migrations/0001_schema.sql) + [`0003_invite_rpc.sql`](../supabase/migrations/0003_invite_rpc.sql) | ✅ |
+| AASA `/j/*` component | `.well-known/apple-app-site-association` | ✅ |
+| Web fallback page | `j/index.html` (reuses `s/share-config.js` for the App Store link) | ✅ |
+| Link builder + incoming-link parser | [`AppLinks.swift`](../AreaMeasure/Services/AppLinks.swift) (`inviteURL(code:)`, `inviteCode(from:)`) | ✅ |
+| Mint invite (owner) | [`ShareInviteSheet.swift`](../AreaMeasure/UI/ShareInviteSheet.swift) — share text now includes the link | ✅ |
+| Open link → prefill Join sheet | [`AreaMeasureApp.swift`](../AreaMeasure/App/AreaMeasureApp.swift) → `ImportInbox.pendingInviteCode` → [`JoinWorkspaceSheet.swift`](../AreaMeasure/UI/JoinWorkspaceSheet.swift) `init(initialCode:)` | ✅ |
+| Device test (Universal Links don't fire in the simulator) | TestFlight, after `Associated Domains` is on the AppStore provisioning profile | ⏳ |
 
 ### To finish (one-time)
 

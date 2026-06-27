@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Workspace invite — GPS &amp; Area Measure</title>
+  <meta name="description" content="You've been invited to a shared workspace in the GPS &amp; Area Measure app." />
+  <meta name="robots" content="noindex, follow" />
+
+  <!-- Social preview (static) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Workspace invite — GPS &amp; Area Measure" />
+  <meta property="og:description" content="Join a shared workspace to measure land together in the app." />
+  <meta property="og:image" content="https://gpsandareameasure.com/assets/og-image.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <style>
+    .join-wrap { max-width: 560px; margin: 0 auto; padding: 28px 18px 48px; }
+    .join-head { display:flex; align-items:center; gap:10px; margin-bottom:28px; }
+    .join-card { background:var(--bg); border:1px solid var(--line); border-radius:var(--radius);
+                 padding:28px 24px; text-align:center; }
+    .join-card h1 { font-size:1.5rem; margin:0 0 8px; }
+    .join-card p { color:var(--body); margin:0 0 20px; }
+    .code-box { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:1.9rem; font-weight:700;
+                letter-spacing:.12em; color:var(--green-dark); background:var(--green-soft);
+                border-radius:12px; padding:14px 18px; margin:0 0 20px; word-break:break-all; }
+    .steps { text-align:left; color:var(--body); font-size:.95rem; margin:22px auto 0; max-width:420px; }
+    .steps li { margin:8px 0; }
+    .btn-row { display:flex; flex-direction:column; gap:10px; align-items:stretch; margin:6px 0 0; }
+    .btn-row .btn { width:100%; }
+    .muted { color:var(--body); font-size:.85rem; margin-top:18px; }
+    .state { text-align:center; padding:48px 20px; color:var(--body); }
+  </style>
+</head>
+<body>
+  <div class="join-wrap">
+    <div class="join-head">
+      <a class="brand" href="/"><span class="brand-mark">📐</span><span class="brand-name">GPS &amp; Area Measure</span></a>
+    </div>
+    <div id="content">
+      <div class="state"><h1>Loading invite…</h1></div>
+    </div>
+  </div>
+
+  <!-- Reuse the share viewer's public config for the App Store link. -->
+  <script src="../s/share-config.js"></script>
+  <script>
+  (function () {
+    const cfg = window.SHARE_CONFIG || {};
+    const appStore = cfg.APP_STORE_URL || "/";
+    const params = new URLSearchParams(location.search);
+    // Codes are uppercase letters+digits from an unambiguous alphabet; strip anything else.
+    const code = (params.get("code") || "").trim().toUpperCase().replace(/[^A-Z0-9]/g, "");
+    const content = document.getElementById("content");
+
+    function escapeHtml(s) {
+      return String(s).replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
+    }
+
+    if (!code) {
+      content.innerHTML = `<div class="state"><h1>This invite link looks incomplete</h1>
+        <p>It’s missing its code — ask whoever invited you to share the link again.</p>
+        <p><a class="btn" href="/">← Go to gpsandareameasure.com</a></p></div>`;
+      return;
+    }
+
+    // If the app is installed, iOS opens it directly via the Universal Link and this page never shows.
+    // So everyone who sees this page needs the app first — then the code joins them to the workspace.
+    content.innerHTML = `
+      <div class="join-card">
+        <h1>You’re invited to a workspace</h1>
+        <p>Someone shared a <strong>GPS &amp; Area Measure</strong> workspace with you. Join to measure and
+           manage land together.</p>
+        <div class="code-box">${escapeHtml(code)}</div>
+        <div class="btn-row">
+          <a class="btn" href="${escapeHtml(appStore)}">Get the app</a>
+        </div>
+        <ol class="steps">
+          <li>Install <strong>GPS &amp; Area Measure</strong> and open it.</li>
+          <li>Tap your workspace name → <strong>Workspaces</strong> → <strong>Join with a code</strong>.</li>
+          <li>Enter the code above and tap <strong>Join workspace</strong>.</li>
+        </ol>
+        <p class="muted">Already have the app? Re-open this link from your phone and it’ll jump straight in.</p>
+      </div>`;
+  })();
+  </script>
+</body>
+</html>

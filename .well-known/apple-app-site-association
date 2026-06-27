@@ -7,6 +7,10 @@
           {
             "/": "/s/*",
             "comment": "Shared measurement links open in the app when installed"
+          },
+          {
+            "/": "/j/*",
+            "comment": "Workspace invite links open in the app (prefill the Join sheet) when installed"
           }
         ]
       }
