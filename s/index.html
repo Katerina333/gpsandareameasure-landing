@@ -37,6 +37,16 @@
     .unit-toggle { display:inline-flex; gap:4px; background:var(--bg-alt); border:1px solid var(--line); border-radius:999px; padding:3px; }
     .unit-toggle button { border:0; background:transparent; padding:6px 12px; border-radius:999px; cursor:pointer; font-weight:600; color:var(--body); font-size:.85rem; }
     .unit-toggle button.active { background:var(--green); color:#fff; }
+    .photo-wrap { margin:16px 0; }
+    .photo-wrap img, .photo-wrap video { width:100%; max-height:420px; object-fit:cover; border-radius:var(--radius); border:1px solid var(--line); display:block; background:#000; }
+    .coords { margin:16px 0; }
+    .coords-head { display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; margin-bottom:10px; }
+    .coords-head h2 { font-size:1.05rem; margin:0; color:var(--ink); }
+    .coords-list { border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+    .coords-list .row { display:flex; align-items:baseline; gap:12px; padding:9px 14px; font-size:.92rem; }
+    .coords-list .row:nth-child(odd) { background:var(--bg); }
+    .coords-list .row .idx { color:var(--body); font-variant-numeric:tabular-nums; min-width:1.6em; font-weight:600; font-size:.82rem; }
+    .coords-list .row .ll { color:var(--ink); font-variant-numeric:tabular-nums; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; }
     .cta-strip { display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;
                  background:var(--green-soft); border-radius:var(--radius); padding:16px 20px; margin-top:8px; }
   </style>
@@ -105,6 +115,24 @@
         : Math.round(m).toLocaleString() + " <small>m</small>";
     }
 
+    // Coordinate formatting: decimal degrees or degrees-minutes-seconds, with hemisphere suffix.
+    function fmtCoord(lat, lon, fmt) {
+      if (fmt === "dms") return dms(lat, "N", "S") + " " + dms(lon, "E", "W");
+      return decDeg(lat, "N", "S") + " " + decDeg(lon, "E", "W");
+    }
+    function decDeg(v, pos, neg) {
+      return Math.abs(v).toFixed(6) + "° " + (v >= 0 ? pos : neg);
+    }
+    function dms(v, pos, neg) {
+      const a = Math.abs(v);
+      const d = Math.floor(a);
+      const mf = (a - d) * 60;
+      const m = Math.floor(mf);
+      const s = (mf - m) * 60;
+      return d + "°" + String(m).padStart(2, "0") + "′" +
+             s.toFixed(1).padStart(4, "0") + "″ " + (v >= 0 ? pos : neg);
+    }
+
     function showState(title, sub) {
       content.innerHTML = `<div class="state"><h1>${title}</h1>${sub?`<p>${sub}</p>`:""}
         <p><a class="btn" href="/">← Go to gpsandareameasure.com</a></p></div>`;
@@ -117,7 +145,7 @@
     }
 
     // Explicit column list (never request created_by — the author's UUID is not exposed publicly).
-    const cols = "name,note,kind_raw,points_data,holes_data,area_m2,perimeter_m";
+    const cols = "name,note,kind_raw,points_data,holes_data,area_m2,perimeter_m,photo_url";
     const endpoint = `${cfg.SUPABASE_URL}/rest/v1/public_shares?id=eq.${encodeURIComponent(id)}&select=${cols}`;
     fetch(endpoint, { headers: { apikey: cfg.SUPABASE_ANON_KEY, Authorization: "Bearer " + cfg.SUPABASE_ANON_KEY } })
       .then(async r => {
@@ -151,7 +179,19 @@
       const stats = [];
       if (isField) stats.push(`<div class="stat"><div class="k">Area</div><div class="v" id="areaVal">${fmtArea(areaM2,"ac")}</div></div>`);
       stats.push(`<div class="stat"><div class="k">${isField?"Perimeter":"Distance"}</div><div class="v">${fmtDist(perim)}</div></div>`);
-      stats.push(`<div class="stat"><div class="k">Points</div><div class="v">${pts.length}</div></div>`);
+
+      const photoHtml = row.photo_url ? photoMarkup(row.photo_url) : "";
+      const coordsHtml = pts.length ? `
+        <div class="coords">
+          <div class="coords-head">
+            <h2>Coordinates <small style="color:var(--body);font-weight:600">(${pts.length})</small></h2>
+            <div class="unit-toggle" id="coordFmt">
+              <button data-f="dd" class="active">Decimal</button>
+              <button data-f="dms">DMS</button>
+            </div>
+          </div>
+          <div class="coords-list" id="coordList"></div>
+        </div>` : "";
 
       content.innerHTML = `
         <div class="title-row">
@@ -160,11 +200,28 @@
         </div>
         ${row.note ? `<p class="note">${escapeHtml(row.note)}</p>` : ""}
         <div class="stats">${stats.join("")}</div>
+        ${photoHtml}
         <div id="map"></div>
+        ${coordsHtml}
         <div class="cta-strip">
           <strong>Measured with Field Maps with Area Measure</strong>
           <a class="btn" href="${cfg.APP_STORE_URL || "/"}">Get the app</a>
         </div>`;
+
+      if (pts.length) {
+        const renderCoords = fmt => {
+          document.getElementById("coordList").innerHTML = pts.map((p, i) =>
+            `<div class="row"><span class="idx">${i + 1}</span><span class="ll">${fmtCoord(p.lat, p.lon, fmt)}</span></div>`
+          ).join("");
+        };
+        renderCoords("dd");
+        const cf = document.getElementById("coordFmt");
+        cf.querySelectorAll("button").forEach(b => b.addEventListener("click", () => {
+          cf.querySelectorAll("button").forEach(x => x.classList.remove("active"));
+          b.classList.add("active");
+          renderCoords(b.dataset.f);
+        }));
+      }
 
       if (isField) {
         const ut = document.getElementById("units");
@@ -211,6 +268,15 @@
       const b = (layer.getBounds && layer.getBounds());
       if (b && b.isValid()) map.fitBounds(b, { padding: [30, 30] });
       else map.setView(latlngs[0], 17);
+    }
+
+    // Render an attachment. The path before the signed-URL query string tells us image vs video.
+    function photoMarkup(url) {
+      const safe = escapeHtml(url);
+      const isVideo = /\.(mov|mp4|m4v|qt)$/i.test(url.split("?")[0]);
+      return isVideo
+        ? `<div class="photo-wrap"><video src="${safe}" controls playsinline preload="metadata"></video></div>`
+        : `<div class="photo-wrap"><img src="${safe}" alt="Measurement photo" loading="lazy" /></div>`;
     }
 
     function escapeHtml(s) {

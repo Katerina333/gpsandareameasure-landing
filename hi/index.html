@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Field Maps with Area Measure — नक्शे पर भूमि का क्षेत्रफल, परिमाप और दूरी मापें</title>
+  <meta name="description" content="नक्शे पर भूमि का क्षेत्रफल, परिमाप और दूरी मापें — बिंदु टैप करें या GPS से सीमा पर चलें। ऑफ़लाइन उपयोग, टीम वर्कस्पेस और CSV/KML निर्यात के साथ नेटिव iPhone और iPad ऐप।" />
+  <link rel="canonical" href="https://gpsandareameasure.com/hi/" />
+  <link rel="alternate" hreflang="en" href="https://gpsandareameasure.com/" />
+  <link rel="alternate" hreflang="es" href="https://gpsandareameasure.com/es/" />
+  <link rel="alternate" hreflang="fr" href="https://gpsandareameasure.com/fr/" />
+  <link rel="alternate" hreflang="pt-BR" href="https://gpsandareameasure.com/pt/" />
+  <link rel="alternate" hreflang="th" href="https://gpsandareameasure.com/th/" />
+  <link rel="alternate" hreflang="hi" href="https://gpsandareameasure.com/hi/" />
+  <link rel="alternate" hreflang="x-default" href="https://gpsandareameasure.com/" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <meta name="theme-color" content="#1f8a4c" />
+  <meta name="apple-mobile-web-app-title" content="Area Measure" />
+  <meta name="keywords" content="भूमि मापन,क्षेत्रफल,हेक्टेयर,एकड़,बीघा,खेत,परिमाप,दूरी,नक्शा,gps,ज़मीन,प्लॉट,सर्वेक्षण,मापक" />
+
+  <!-- Open Graph / social sharing -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Field Maps with Area Measure" />
+  <meta property="og:title" content="Field Maps with Area Measure — भूमि का क्षेत्रफल, परिमाप और दूरी मापें" />
+  <meta property="og:description" content="असली नक्शे पर भूमि का क्षेत्रफल, परिमाप और दूरी मापें — बिंदु टैप करें या GPS से सीमा पर चलें। iPhone और iPad।" />
+  <meta property="og:url" content="https://gpsandareameasure.com/hi/" />
+  <meta property="og:image" content="https://gpsandareameasure.com/assets/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Field Maps with Area Measure — अपने फ़ोन से ज़मीन का कोई भी टुकड़ा मापें" />
+  <meta property="og:locale" content="hi_IN" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Field Maps with Area Measure — भूमि का क्षेत्रफल, परिमाप और दूरी मापें" />
+  <meta name="twitter:description" content="असली नक्शे पर भूमि का क्षेत्रफल, परिमाप और दूरी मापें — बिंदु टैप करें या GPS से सीमा पर चलें।" />
+  <meta name="twitter:image" content="https://gpsandareameasure.com/assets/og-image.png" />
+
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/assets/favicon.svg" />
+  <link rel="stylesheet" href="/assets/styles.css" />
+
+  <!-- Structured data: app + organization -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "MobileApplication",
+    "name": "Field Maps with Area Measure",
+    "operatingSystem": "iOS 17.0 or later",
+    "applicationCategory": "UtilitiesApplication",
+    "description": "नक्शे पर भूमि का क्षेत्रफल, परिमाप और दूरी मापें — बिंदु टैप करें या GPS से सीमा पर चलें। ऑफ़लाइन काम करता है, टीम वर्कस्पेस का समर्थन करता है, और CSV व KML में निर्यात करता है।",
+    "url": "https://gpsandareameasure.com/",
+    "image": "https://gpsandareameasure.com/assets/og-image.png",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "featureList": [
+      "असली नक्शे पर क्षेत्रफल, परिमाप और दूरी मापें",
+      "बिंदु बनाने के लिए टैप करें या GPS से सीमा पर चलें",
+      "WGS-84 दीर्घवृत्ताभ पर जियोडेसिक सटीकता",
+      "एकड़, हेक्टेयर, वर्ग मीटर और वर्ग फुट",
+      "खेत में ऑफ़लाइन काम करता है",
+      "साझा सिंक के साथ टीम वर्कस्पेस",
+      "CSV और KML में निर्यात"
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "माप कितना सटीक होता है?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "ऐप WGS-84 दीर्घवृत्ताभ पर जियोडेसिक गणना का उपयोग करता है, इसलिए बड़े भूखंडों पर भी क्षेत्रफल और परिमाप सटीक रहते हैं। GPS की सटीकता आपके डिवाइस और खुले आकाश के दृश्य पर निर्भर करती है; छोटे प्लॉट के लिए सैटेलाइट इमेजरी पर टैप-टू-ड्रॉ सबसे सटीक है।"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "क्या मेरी पूरी टीम इसे साथ मिलकर उपयोग कर सकती है?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "हाँ — वर्कस्पेस इसीलिए हैं। शेयर कोड से साथियों को आमंत्रित करें और हर व्यक्ति को स्वामी, संपादक या केवल-दर्शक पहुँच दें। सभी एक ही माप पर काम करते हैं, और बदलाव अपने-आप सिंक होते हैं, ऑफ़लाइन काम करने के बाद भी।"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "क्या यह इंटरनेट के बिना काम करता है?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "GPS ट्रैकिंग और माप ऑफ़लाइन काम करते हैं, और आपके वर्कस्पेस भी — बिना सिग्नल के बनाएँ, संपादित करें और व्यवस्थित करें। जैसे ही आप वापस ऑनलाइन होते हैं, सब कुछ आपकी टीम के साथ सिंक हो जाता है। बिल्कुल नए क्षेत्र के नक्शा टाइल लोड करने के लिए कनेक्शन चाहिए, लेकिन कैश किए गए क्षेत्र खेत में उपलब्ध रहते हैं।"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "कौन-कौन सी इकाइयाँ समर्थित हैं?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "क्षेत्रफल के लिए एकड़, हेक्टेयर, वर्ग मीटर और वर्ग फुट; दूरी के लिए मीटर, किलोमीटर, फुट और मील — कभी भी बदला जा सकता है।"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "क्या मैं अपना डेटा बाहर निकाल सकता हूँ?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "हाँ। किसी भी माप को CSV (स्प्रेडशीट के लिए) या KML (Google Earth और GIS सॉफ़्टवेयर के लिए) के रूप में निर्यात करें।"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "कौन-कौन से डिवाइस समर्थित हैं?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "iOS 17 या उससे नया चलाने वाले iPhone और iPad, iPad के लिए अनुकूलित लेआउट के साथ।"
+        }
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <!-- ===== Header ===== -->
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="#top">
+        <span class="brand-mark" aria-hidden="true">📐</span>
+        <span class="brand-name">Field Maps with Area Measure</span>
+      </a>
+      <nav class="nav-links">
+        <a href="#features">विशेषताएँ</a>
+        <a href="#workspaces">टीमें</a>
+        <a href="#how">यह कैसे काम करता है</a>
+        <a href="#faq">सामान्य प्रश्न</a>
+        <a class="btn btn-sm" href="#download">ऐप पाएँ</a>
+        <span class="lang-switch">
+          <a href="/" hreflang="en">EN</a>
+          <a href="/es/" hreflang="es">ES</a>
+          <a href="/fr/" hreflang="fr">FR</a>
+          <a href="/pt/" hreflang="pt-BR">PT</a>
+          <a href="/th/" hreflang="th">TH</a>
+          <a href="/hi/" hreflang="hi" aria-current="page">HI</a>
+        </span>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ===== Hero ===== -->
+  <main id="top">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <h1>ज़मीन का कोई भी टुकड़ा मापें — सीधे अपने फ़ोन से।</h1>
+          <p class="lead">
+            असली नक्शे पर <strong>क्षेत्रफल, परिमाप और दूरी</strong> की गणना करें।
+            खेत बनाने के लिए बिंदु टैप करें, या बस <strong>सीमा पर चलें, गाड़ी चलाएँ या उड़ें</strong>
+            और GPS को इसे आपके लिए ट्रेस करने दें।
+          </p>
+          <div class="cta-row" id="download">
+            <a class="store-badge" href="#" data-app-store aria-label="App Store पर डाउनलोड करें">
+              <svg viewBox="0 0 24 24" aria-hidden="true" class="sb-icon">
+                <path fill="#fff" d="M16.5 1.3c.1 1-.3 2-1 2.8-.7.8-1.8 1.4-2.8 1.3-.1-1 .4-2 1-2.7.7-.8 1.9-1.4 2.8-1.4zM19.9 17c-.5 1.2-.8 1.7-1.4 2.7-.9 1.4-2.2 3.1-3.7 3.1-1.4 0-1.7-.9-3.6-.9s-2.3.9-3.6.9c-1.5 0-2.7-1.5-3.6-2.9C1.1 16.3.8 11.4 2.4 8.8c.9-1.5 2.4-2.4 4-2.4 1.5 0 2.5 1 3.8 1 1.2 0 2-1 3.8-1 1.4 0 2.9.8 3.9 2.1-3.4 1.9-2.9 6.8.2 8.5z"/>
+              </svg>
+              <span class="sb-text"><small>इस पर डाउनलोड करें</small><strong>App Store</strong></span>
+            </a>
+            <button class="store-badge" type="button" data-waitlist-open
+                    aria-label="Google Play पर पाएँ">
+              <svg viewBox="0 0 24 24" aria-hidden="true" class="sb-icon">
+                <path d="M3.6 2.3 13.9 12 3.6 21.7c-.3-.2-.5-.6-.5-1V3.3c0-.4.2-.8.5-1z" fill="#34d399"/>
+                <path d="M16.8 8.9 13.9 12l-2.5-2.4 5-2.9c.1 0 .3.1.4.2z" fill="#fbbf24"/>
+                <path d="M16.8 15.1l-2.4-3.1 2.4-2.3 3.3 1.9c.5.3.5 1 0 1.3l-3.3 2.2z" fill="#f87171"/>
+                <path d="M3.6 21.7 11.4 14.4 13.9 12l2.9 3.1-12.8 6.8c-.1 0-.3-.1-.4-.2z" fill="#60a5fa"/>
+              </svg>
+              <span class="sb-text"><small>इस पर पाएँ</small><strong>Google Play</strong></span>
+            </button>
+            <span class="cta-note">iPhone और iPad · iOS 17+</span>
+          </div>
+          <ul class="hero-badges">
+            <li>✓ खेत में ऑफ़लाइन काम करता है</li>
+            <li>✓ अपनी टीम के साथ साझा करें और सिंक करें</li>
+            <li>✓ CSV और KML में निर्यात करें</li>
+          </ul>
+        </div>
+
+        <div class="hero-visual" aria-hidden="true">
+          <div class="phone">
+            <div class="phone-screen">
+
+              <!-- Vector map -->
+              <svg class="map" viewBox="0 0 240 520" preserveAspectRatio="xMidYMid slice">
+                <!-- base terrain -->
+                <rect width="240" height="520" fill="#e7efe7"/>
+                <path d="M0 0H240V210L150 250 0 200Z" fill="#dde9da"/>
+                <path d="M0 200L150 250 240 210V400L120 460 0 410Z" fill="#d6e6d6"/>
+                <path d="M0 410L120 460 240 400V520H0Z" fill="#cfe2cf"/>
+                <!-- water -->
+                <path d="M-10 470C30 440 70 470 70 510 70 540 10 545 -20 530Z" fill="#bfe0ef"/>
+                <!-- roads (casing + fill) -->
+                <path d="M-10 90 Q120 140 250 60" fill="none" stroke="#c9d3cb" stroke-width="16"/>
+                <path d="M-10 90 Q120 140 250 60" fill="none" stroke="#ffffff" stroke-width="10"/>
+                <path d="M40 -10 Q70 200 30 530" fill="none" stroke="#c9d3cb" stroke-width="12"/>
+                <path d="M40 -10 Q70 200 30 530" fill="none" stroke="#ffffff" stroke-width="7"/>
+                <!-- tree clusters -->
+                <g fill="#a7cda6">
+                  <circle cx="206" cy="430" r="9"/><circle cx="220" cy="442" r="8"/>
+                  <circle cx="200" cy="446" r="7"/><circle cx="216" cy="424" r="6"/>
+                  <circle cx="22" cy="150" r="7"/><circle cx="33" cy="160" r="6"/>
+                </g>
+
+                <!-- measured field -->
+                <polygon class="field" points="58,150 186,124 202,322 78,352"/>
+                <!-- edge length labels -->
+                <g class="edge-label">
+                  <rect x="98" y="118" width="50" height="20" rx="6"/>
+                  <text x="123" y="132">182 m</text>
+                </g>
+                <g class="edge-label">
+                  <rect x="178" y="213" width="46" height="20" rx="6"/>
+                  <text x="201" y="227">146 m</text>
+                </g>
+                <!-- vertices -->
+                <g class="vertex">
+                  <circle cx="58" cy="150" r="6"/><circle cx="186" cy="124" r="6"/>
+                  <circle cx="202" cy="322" r="6"/><circle cx="78" cy="352" r="6"/>
+                </g>
+              </svg>
+
+              <!-- status bar -->
+              <div class="phone-status">
+                <span>9:41</span>
+                <span class="status-right">
+                  <svg viewBox="0 0 18 12" width="17"><rect x="0" y="2" width="3" height="8" rx="1" fill="currentColor"/><rect x="5" y="0" width="3" height="10" rx="1" fill="currentColor"/><rect x="10" y="4" width="3" height="6" rx="1" fill="currentColor" opacity=".4"/></svg>
+                  <svg viewBox="0 0 26 12" width="24"><rect x="1" y="1" width="20" height="10" rx="3" fill="none" stroke="currentColor" stroke-width="1.4"/><rect x="3" y="3" width="14" height="6" rx="1.5" fill="currentColor"/><rect x="22" y="4" width="2" height="4" rx="1" fill="currentColor"/></svg>
+                </span>
+              </div>
+
+              <!-- search bar -->
+              <div class="map-search">
+                <svg viewBox="0 0 24 24" width="16" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><line x1="16.5" y1="16.5" x2="21" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                <span>पता या स्थान खोजें</span>
+              </div>
+
+              <!-- locate / GPS button -->
+              <button class="map-gps" type="button" tabindex="-1">
+                <svg viewBox="0 0 24 24" width="20"><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/><line x1="12" y1="1.5" x2="12" y2="5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="19" x2="12" y2="22.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="1.5" y1="12" x2="5" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="19" y1="12" x2="22.5" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              </button>
+
+              <!-- bottom measurement sheet -->
+              <div class="measure-card">
+                <span class="mc-grab"></span>
+                <div class="mc-head">
+                  <div>
+                    <span class="mc-value">4.21 ac</span>
+                    <span class="mc-label">उत्तरी खेत</span>
+                  </div>
+                  <div class="mc-peri">
+                    <strong>642 m</strong>
+                    <span>परिमाप</span>
+                  </div>
+                </div>
+                <div class="mc-units">
+                  <span class="unit active">एकड़</span>
+                  <span class="unit">हेक्टेयर</span>
+                  <span class="unit">m²</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Workspaces / Teams ===== -->
+    <section id="workspaces" class="section workspace-band">
+      <div class="container ws-grid">
+        <div class="ws-copy">
+          <span class="ws-eyebrow">वर्कस्पेस · टीम सहयोग</span>
+          <h2>अपनी पूरी टीम के साथ एक वर्कस्पेस साझा करें।</h2>
+          <p class="lead">
+            एक <strong>वर्कस्पेस</strong> में आपके सभी खेत, प्लॉट और नोट्स होते हैं — और आप इसे
+            <strong>अन्य सदस्यों के साथ साझा कर सकते हैं</strong>। अपने दल, कार्यालय या परिवार को आमंत्रित करें, और
+            सभी एक ही माप को लाइव देखते और संपादित करते हैं।
+          </p>
+          <ul class="ws-list">
+            <li><strong>एक कोड से सदस्यों को आमंत्रित करें</strong> — एक शेयर लिंक भेजें और वे तुरंत आपके वर्कस्पेस में शामिल हो जाते हैं, बिना किसी एडमिन सेटअप के।</li>
+            <li><strong>हर व्यक्ति के लिए एक भूमिका</strong> — हर सदस्य स्वामी, संपादक या केवल-दर्शक होता है।</li>
+            <li><strong>सभी सिंक में रहते हैं</strong> — किसी भी सदस्य के बदलाव अपने-आप मर्ज हो जाते हैं, ऑफ़लाइन काम करने के बाद भी।</li>
+            <li><strong>कई वर्कस्पेस</strong> — अलग-अलग टीमों या परियोजनाओं को अलग रखें और उनके बीच स्विच करें।</li>
+            <li><strong>फ़ोटो और नोट्स साझा</strong> — साइट की फ़ोटो और नोट्स हर सदस्य के साथ सिंक होते हैं।</li>
+          </ul>
+          <a class="btn btn-lg" href="#download">ऐप पाएँ</a>
+          <p class="ws-note">साइन-इन वैकल्पिक है — अकेले और ऑफ़लाइन शुरू करें, जब चाहें तब अपनी टीम को आमंत्रित करें।</p>
+        </div>
+
+        <div class="ws-visual" aria-hidden="true">
+          <div class="ws-card">
+            <div class="ws-card-head">
+              <span class="ws-swatch"></span>
+              <strong>उत्तरी फ़ार्म</strong>
+              <span class="ws-count">4 सदस्य</span>
+            </div>
+            <ul class="ws-rows">
+              <li><span class="ava a">JM</span><span class="who">जेन (आप)</span><span class="role owner">स्वामी</span></li>
+              <li><span class="ava b">KP</span><span class="who">फ़ील्ड लीड</span><span class="role editor">संपादक</span></li>
+              <li><span class="ava c">RS</span><span class="who">सर्वेक्षक</span><span class="role editor">संपादक</span></li>
+              <li><span class="ava d">AL</span><span class="who">लेखाकार</span><span class="role viewer">दर्शक</span></li>
+            </ul>
+            <div class="ws-foot">
+              <span>🟢 अभी-अभी सिंक हुआ</span>
+              <span>12 खेत · 3 समूह</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Features ===== -->
+    <section id="features" class="section">
+      <div class="container">
+        <h2 class="section-title">ज़मीन पर मापने के लिए ज़रूरी हर चीज़</h2>
+        <div class="cards">
+          <article class="card">
+            <div class="card-icon">📍</div>
+            <h3>बनाने के लिए टैप करें</h3>
+            <p>खेत, भूखंड या छत की रूपरेखा बनाने के लिए नक्शे पर पिन रखें। एक मैग्निफ़ायर लूप हर शीर्ष-बिंदु को पिक्सेल-सटीक बनाता है।</p>
+          </article>
+          <article class="card">
+            <div class="card-icon">🛰️</div>
+            <h3>सीमा पर चलें</h3>
+            <p>GPS ट्रैकिंग शुरू करें और परिमाप पर चलें, गाड़ी चलाएँ या उड़ें। ऐप आपके रास्ते को रिकॉर्ड करता है और आकृति को अपने-आप बंद कर देता है।</p>
+          </article>
+          <article class="card">
+            <div class="card-icon">📏</div>
+            <h3>क्षेत्रफल, परिमाप और दूरी</h3>
+            <p>सटीक जियोडेसिक गणित घुमावदार पृथ्वी पर सही क्षेत्रफल और परिमाप देता है — सपाट-नक्शे के अनुमान नहीं।</p>
+          </article>
+          <article class="card">
+            <div class="card-icon">🔁</div>
+            <h3>कोई भी इकाई, तुरंत</h3>
+            <p>एक टैप से एकड़, हेक्टेयर, वर्ग मीटर और वर्ग फुट के बीच टॉगल करें। दूरी मीट्रिक या इम्पीरियल में।</p>
+          </article>
+          <article class="card">
+            <div class="card-icon">💾</div>
+            <h3>सहेजें और फिर से देखें</h3>
+            <p>हर माप अपने नक्शे के साथ सहेजा जाता है। अपने प्लॉट का इतिहास बनाएँ और उन्हें कभी भी फिर से खोलें।</p>
+          </article>
+          <article class="card">
+            <div class="card-icon">📤</div>
+            <h3>अपना डेटा निर्यात करें</h3>
+            <p>मापों को स्प्रेडशीट के लिए CSV या Google Earth और GIS टूल के लिए KML के रूप में भेजें।</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== How it works ===== -->
+    <section id="how" class="section section-alt">
+      <div class="container">
+        <h2 class="section-title">तीन चरणों में एक खेत मापें</h2>
+        <ol class="steps">
+          <li>
+            <span class="step-num">1</span>
+            <h3>अपनी जगह खोजें</h3>
+            <p>कोई भी पता या स्थान खोजें, या नक्शे को अपने वर्तमान स्थान पर केंद्रित करें।</p>
+          </li>
+          <li>
+            <span class="step-num">2</span>
+            <h3>सीमा को ट्रेस करें</h3>
+            <p>बिंदु रखने के लिए टैप करें, या GPS दबाएँ और संपत्ति के किनारे पर चलें।</p>
+          </li>
+          <li>
+            <span class="step-num">3</span>
+            <h3>पढ़ें और निर्यात करें</h3>
+            <p>क्षेत्रफल और परिमाप को लाइव अपडेट होते देखें। इसे सहेजें, इकाइयाँ बदलें, या CSV/KML में निर्यात करें।</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ===== Who it's for ===== -->
+    <section class="section">
+      <div class="container">
+        <h2 class="section-title">ज़मीन पर काम करने वालों के लिए बनाया गया</h2>
+        <div class="audience">
+          <span>🌾 किसान और उत्पादक</span>
+          <span>👥 फ़ील्ड टीमें और दल</span>
+          <span>🏡 संपत्ति मालिक</span>
+          <span>🏗️ लैंडस्केपर और बिल्डर</span>
+          <span>🌲 वनकर्मी और सर्वेक्षक</span>
+          <span>📐 रियल एस्टेट कार्यालय</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== FAQ ===== -->
+    <section id="faq" class="section section-alt">
+      <div class="container narrow">
+        <h2 class="section-title">अक्सर पूछे जाने वाले प्रश्न</h2>
+        <details>
+          <summary>माप कितना सटीक होता है?</summary>
+          <p>ऐप WGS-84 दीर्घवृत्ताभ पर जियोडेसिक गणना का उपयोग करता है, इसलिए बड़े भूखंडों पर भी क्षेत्रफल और परिमाप सटीक रहते हैं। GPS की सटीकता आपके डिवाइस और खुले आकाश के दृश्य पर निर्भर करती है; छोटे प्लॉट के लिए सैटेलाइट इमेजरी पर टैप-टू-ड्रॉ सबसे सटीक है।</p>
+        </details>
+        <details>
+          <summary>क्या मेरी पूरी टीम इसे साथ मिलकर उपयोग कर सकती है?</summary>
+          <p>हाँ — वर्कस्पेस इसीलिए हैं। शेयर कोड से साथियों को आमंत्रित करें और हर व्यक्ति को स्वामी, संपादक या केवल-दर्शक पहुँच दें। सभी एक ही माप पर काम करते हैं, और बदलाव अपने-आप सिंक होते हैं, ऑफ़लाइन काम करने के बाद भी।</p>
+        </details>
+        <details>
+          <summary>क्या यह इंटरनेट के बिना काम करता है?</summary>
+          <p>GPS ट्रैकिंग और माप ऑफ़लाइन काम करते हैं, और आपके वर्कस्पेस भी — बिना सिग्नल के बनाएँ, संपादित करें और व्यवस्थित करें। जैसे ही आप वापस ऑनलाइन होते हैं, सब कुछ आपकी टीम के साथ सिंक हो जाता है। बिल्कुल नए क्षेत्र के नक्शा टाइल लोड करने के लिए कनेक्शन चाहिए, लेकिन कैश किए गए क्षेत्र खेत में उपलब्ध रहते हैं।</p>
+        </details>
+        <details>
+          <summary>कौन-कौन सी इकाइयाँ समर्थित हैं?</summary>
+          <p>क्षेत्रफल के लिए एकड़, हेक्टेयर, वर्ग मीटर और वर्ग फुट; दूरी के लिए मीटर, किलोमीटर, फुट और मील — कभी भी बदला जा सकता है।</p>
+        </details>
+        <details>
+          <summary>क्या मैं अपना डेटा बाहर निकाल सकता हूँ?</summary>
+          <p>हाँ। किसी भी माप को CSV (स्प्रेडशीट के लिए) या KML (Google Earth और GIS सॉफ़्टवेयर के लिए) के रूप में निर्यात करें।</p>
+        </details>
+        <details>
+          <summary>कौन-कौन से डिवाइस समर्थित हैं?</summary>
+          <p>iOS 17 या उससे नया चलाने वाले iPhone और iPad, iPad के लिए अनुकूलित लेआउट के साथ।</p>
+        </details>
+      </div>
+    </section>
+
+    <!-- ===== Final CTA ===== -->
+    <section class="section cta-final">
+      <div class="container">
+        <h2>आज ही मापना शुरू करें</h2>
+        <p class="lead">डाउनलोड करना मुफ़्त। मापने के लिए किसी खाते की ज़रूरत नहीं।</p>
+        <div class="cta-row" style="justify-content:center">
+          <a class="store-badge" href="#" data-app-store aria-label="App Store पर डाउनलोड करें">
+            <svg viewBox="0 0 24 24" aria-hidden="true" class="sb-icon">
+              <path fill="#fff" d="M16.5 1.3c.1 1-.3 2-1 2.8-.7.8-1.8 1.4-2.8 1.3-.1-1 .4-2 1-2.7.7-.8 1.9-1.4 2.8-1.4zM19.9 17c-.5 1.2-.8 1.7-1.4 2.7-.9 1.4-2.2 3.1-3.7 3.1-1.4 0-1.7-.9-3.6-.9s-2.3.9-3.6.9c-1.5 0-2.7-1.5-3.6-2.9C1.1 16.3.8 11.4 2.4 8.8c.9-1.5 2.4-2.4 4-2.4 1.5 0 2.5 1 3.8 1 1.2 0 2-1 3.8-1 1.4 0 2.9.8 3.9 2.1-3.4 1.9-2.9 6.8.2 8.5z"/>
+            </svg>
+            <span class="sb-text"><small>इस पर डाउनलोड करें</small><strong>App Store</strong></span>
+          </a>
+          <button class="store-badge" type="button" data-waitlist-open
+                  aria-label="Google Play पर पाएँ">
+            <svg viewBox="0 0 24 24" aria-hidden="true" class="sb-icon">
+              <path d="M3.6 2.3 13.9 12 3.6 21.7c-.3-.2-.5-.6-.5-1V3.3c0-.4.2-.8.5-1z" fill="#34d399"/>
+              <path d="M16.8 8.9 13.9 12l-2.5-2.4 5-2.9c.1 0 .3.1.4.2z" fill="#fbbf24"/>
+              <path d="M16.8 15.1l-2.4-3.1 2.4-2.3 3.3 1.9c.5.3.5 1 0 1.3l-3.3 2.2z" fill="#f87171"/>
+              <path d="M3.6 21.7 11.4 14.4 13.9 12l2.9 3.1-12.8 6.8c-.1 0-.3-.1-.4-.2z" fill="#60a5fa"/>
+            </svg>
+            <span class="sb-text"><small>इस पर पाएँ</small><strong>Google Play</strong></span>
+          </button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== Android waitlist modal ===== -->
+  <div class="modal-backdrop" id="waitlist-modal" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="wl-title">
+      <button class="modal-close" type="button" data-waitlist-close aria-label="बंद करें">&times;</button>
+      <h2 id="wl-title">Android जल्द ही आ रहा है</h2>
+      <p>हम Field Maps with Area Measure का Android संस्करण बना रहे हैं। अपना ईमेल छोड़ें और जैसे ही यह
+         Google Play पर आएगा, हम आपको बता देंगे।</p>
+      <form id="wl-form" novalidate>
+        <input type="email" id="wl-email" name="email" required placeholder="you@example.com"
+               autocomplete="email" inputmode="email" />
+        <button class="btn btn-lg" type="submit" id="wl-submit">प्रतीक्षा सूची में शामिल हों</button>
+      </form>
+      <p class="wl-msg" id="wl-msg" role="status" aria-live="polite"></p>
+      <p class="wl-fine">कोई स्पैम नहीं — बस Android लॉन्च होने पर एक ईमेल।</p>
+    </div>
+  </div>
+
+  <!-- ===== Footer ===== -->
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <span class="brand-name">Field Maps with Area Measure</span>
+        <p class="muted">नक्शे पर भूमि का क्षेत्रफल, परिमाप और दूरी मापें।</p>
+      </div>
+      <nav class="footer-links">
+        <a href="/privacy.html">गोपनीयता नीति</a>
+        <a href="/terms.html">उपयोग की शर्तें</a>
+        <a href="mailto:hello@gpsandareameasure.com">संपर्क</a>
+      </nav>
+    </div>
+    <div class="container">
+      <p class="muted small">© <span id="year"></span> Field Maps with Area Measure. सर्वाधिकार सुरक्षित।</p>
+    </div>
+  </footer>
+
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+  <script src="/assets/analytics.js"></script>
+  <script src="/s/share-config.js"></script>
+  <script src="/assets/waitlist.js"></script>
+</body>
+</html>

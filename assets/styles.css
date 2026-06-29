@@ -335,3 +335,9 @@ details p { margin: 12px 0 0; }
 .consent-bar .consent-decline { background: transparent; border: 1px solid rgba(255,255,255,.35); color: #fff; }
 .consent-bar .consent-decline:hover { background: rgba(255,255,255,.10); }
 .consent-bar .consent-accept { background: var(--green); }
+
+/* Language switcher (header nav) */
+.lang-switch { display: inline-flex; gap: 2px; align-items: center; margin-left: 6px; font-size: 13px; font-weight: 600; }
+.lang-switch a { color: var(--muted); padding: 2px 6px; border-radius: 6px; line-height: 1; }
+.lang-switch a[aria-current="page"] { color: #fff; background: var(--brand, #1f8a4c); }
+@media (max-width: 720px) { .lang-switch { margin-left: 0; } }
