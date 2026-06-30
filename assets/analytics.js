@@ -116,13 +116,17 @@
     return APP_STORE_URL + sep + "ct=" + encodeURIComponent(ct.slice(0, 40)) + "&mt=8";
   }
 
+  function track(name, params) {
+    if (window.gtag) gtag("event", name, params || {});
+  }
+
   function wireStoreButtons() {
     document.querySelectorAll("[data-app-store]").forEach(function (el) {
       var url = buildStoreURL();
       if (url !== "#") el.setAttribute("href", url);
       el.addEventListener("click", function () {
         var src = getSource();
-        if (window.gtag) gtag("event", "app_store_click", {
+        track("app_store_click", {
           source: src.utm_source || document.referrer || "direct",
           campaign: src.utm_campaign || "none"
         });
@@ -130,7 +134,42 @@
     });
   }
 
-  // 6) ----- init ---------------------------------------------------
+  // 6) ----- engagement events (conversions + navigation) -----------
+  function wireEngagement() {
+    // Google Play badge → Android waitlist intent
+    document.querySelectorAll("[data-waitlist-open]").forEach(function (el) {
+      el.addEventListener("click", function () {
+        track("google_play_click", {
+          platform: "android",
+          location: el.closest(".cta-final") ? "footer_cta" : "hero"
+        });
+      });
+    });
+    // "Get the app" anchors (header + in-page CTAs)
+    document.querySelectorAll('a[href$="#download"]').forEach(function (el) {
+      el.addEventListener("click", function () { track("get_app_click"); });
+    });
+    // Language selection from the dropdown
+    document.querySelectorAll(".lang-pop a").forEach(function (el) {
+      el.addEventListener("click", function () {
+        track("language_change", { language: el.getAttribute("hreflang") || el.textContent.trim() });
+      });
+    });
+  }
+
+  // 7) ----- language dropdown: close on outside click / Escape -----
+  function wireLangMenu() {
+    var menus = document.querySelectorAll("details.lang-menu");
+    if (!menus.length) return;
+    document.addEventListener("click", function (e) {
+      menus.forEach(function (m) { if (m.open && !m.contains(e.target)) m.open = false; });
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") menus.forEach(function (m) { m.open = false; });
+    });
+  }
+
+  // 8) ----- init ---------------------------------------------------
   captureSource();
   var stored = localStorage.getItem(STORE_KEY);
   if (stored === "granted") applyConsent(true);
@@ -138,6 +177,8 @@
 
   function onReady() {
     wireStoreButtons();
+    wireEngagement();
+    wireLangMenu();
     if (!stored) showBanner();
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", onReady);

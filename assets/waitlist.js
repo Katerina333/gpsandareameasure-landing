@@ -115,8 +115,10 @@
       });
 
       if (res.ok) {
+        if (window.gtag) gtag("event", "waitlist_signup", { platform: "android", result: "new" });
         success(L.ok);
       } else if (res.status === 409) {
+        if (window.gtag) gtag("event", "waitlist_signup", { platform: "android", result: "duplicate" });
         success(L.dupe);
       } else {
         const detail = await res.text();
